@@ -1,0 +1,166 @@
+package org.example;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner scan = new Scanner(System.in);
+        List<String> usuarios = new ArrayList<>();
+
+
+        //Exemplo de inicialização de lista
+        //  List<String> listaPreenchida = List.of("Samuel|0634154654654|Ruyaasldjk","Item2","Item3");
+
+
+        System.out.println("============================");
+        System.out.println("BEM VINDO AO SISTEMA DE USUÁRIO!");
+        System.out.println("============================");
+
+        int opcao = 0;
+
+        while (opcao != 10) {
+            exibirMenu();
+
+            System.out.println("Escolha uma opção: ");
+
+            if (scan.hasNextInt()) {
+                opcao = scan.nextInt();
+                scan.nextLine();
+
+            } else {
+                System.out.println("Por favor digite uma opção valida!");
+                scan.nextLine();
+                continue;
+            }
+
+            switch (opcao){
+                case 1 :
+                    cadastrarUsuario(scan,usuarios);
+                    break;
+                case 2:
+                    listarTodosUsuarios(usuarios);
+                    break;
+                case 3:
+                    //Consultar por nome
+                    break;
+                case 8:
+                    capturaNotas(scan);
+                    break;
+                case 10:
+                    System.out.println("Encerrando o sistema .... Até logo!");
+                    break;
+                default:
+                    System.out.println("Opção invalida!");
+            }
+        }
+        scan.close();
+    }
+
+
+    public static void exibirMenu() {
+
+        System.out.println("=============MENU===========");
+        System.out.println("1 - Cadastro");
+        System.out.println("2 - Listar todos");
+        System.out.println("3 - buscar por nome");
+        // System.out.println("7 - Cadastrar notas");
+        System.out.println("8 - Calcular medias");
+        //System.out.println("9 - Resultado final   ");
+        System.out.println("10 - Sair");
+        System.out.println("===========================");
+    }
+
+    public static void cadastrarUsuario(Scanner scan, List<String> usuarios){
+        String dados = "";
+
+        System.out.println("---Cadastro de USUÁRIO---");
+
+        System.out.println("Digite o nome: ");
+        dados = scan.nextLine();
+
+        System.out.println("Digite o CPF: ");
+        dados += " | " + scan.nextLine();
+
+        System.out.println("Digite o endereço: ");
+        dados += " | " + scan.nextLine();
+
+        System.out.println("Digite o E-mail: ");
+        String email = scan.nextLine();
+        if(email.contains("@")) {
+            dados += " | " + email;
+        }else {
+            System.out.println("E-mail é invalido");
+        }
+
+        System.out.println("Digite o Telefone: ");
+        dados += " | " + scan.nextLine();
+
+        usuarios.add(dados);
+
+        System.out.println("Usuário salvo com SUCESSO!");
+    }
+
+    public static void listarTodosUsuarios(List<String> usuarios){
+
+        System.out.println("Lista de usuários");
+
+        if (usuarios.isEmpty()){
+            System.out.println("Nenhum usuário encontrado!");
+        }else {
+
+            for (int i = 0; i< usuarios.size();i++){
+                System.out.println( "Código: " +  (i +1) +". " + usuarios.get(i).toString() );
+            }
+
+        }
+
+
+    }
+
+    public  static void capturaNotas(Scanner scanner){
+        double notas = 0;
+        int quantidade = 0;
+        boolean capturar = true;
+
+        while (capturar){
+
+            double nota;
+            System.out.println("Digite a nota ou 9999 para resultado!");
+            nota = scanner.nextDouble();
+
+            if(nota <0 ){
+                System.out.println("Nota inválida!");
+                continue;
+            }
+
+            if (nota == 9999){
+                capturar = false;
+                continue;
+            }
+
+            notas += nota;
+            quantidade++;
+        }
+
+        double media = calcularMedia(notas, quantidade);
+
+        System.out.println("Media do aluno é igual a "+media);
+
+    }
+
+
+    public static double calcularMedia(double notas, int quatidade){
+
+        if (notas == 0){
+            return 0;
+        }
+
+        return notas/quatidade;
+
+    }
+}
